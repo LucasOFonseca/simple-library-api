@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AvailabilityStatus {
+  available
+  borrowed
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  contact   String
+  document  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  books Book[]
+
+  @@map("users")
+}
+
+model Book {
+  id        String             @id @default(uuid())
+  title     String
+  author    String
+  summary   String
+  status    AvailabilityStatus @default(available)
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+  User      User?              @relation(fields: [userId], references: [id])
+  userId    String?            @map("user_id")
+
+  @@map("books")
+}
