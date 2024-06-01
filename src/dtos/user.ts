@@ -1,9 +1,9 @@
-export interface CreateUserDTO {
+export interface UserRequestDTO {
   name: string;
   contact: string;
   document: string;
 }
 
-export interface UserDTO extends CreateUserDTO {
+export interface UserDTO extends UserRequestDTO {
   id: string;
 }
