@@ -1,7 +1,7 @@
 import cors from '@elysiajs/cors';
 import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
-import { usersRoutes } from './routes';
+import { booksRoutes, usersRoutes } from './routes';
 
 const app = new Elysia()
   .use(cors())
@@ -22,6 +22,7 @@ const app = new Elysia()
     })
   )
   .use(usersRoutes)
+  .use(booksRoutes)
   .listen(3000);
 
 console.log(

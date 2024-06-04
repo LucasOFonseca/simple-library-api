@@ -1,6 +1,21 @@
 import Elysia, { t } from 'elysia';
 import { UserService } from '../../services';
 
+const userRequestSchema = t.Object({
+  name: t.String(),
+  contact: t.String(),
+  document: t.String(),
+});
+
+const userResponseSchema = t.Object({
+  id: t.String(),
+  name: t.String(),
+  contact: t.String(),
+  document: t.String(),
+  createdAt: t.String(),
+  updatedAt: t.String(),
+});
+
 export const usersRoutes = new Elysia().group('/users', (app) =>
   app
     .post(
@@ -11,11 +26,7 @@ export const usersRoutes = new Elysia().group('/users', (app) =>
         return userService.create(body);
       },
       {
-        body: t.Object({
-          name: t.String(),
-          contact: t.String(),
-          document: t.String(),
-        }),
+        body: userRequestSchema,
         detail: {
           tags: ['Users'],
           summary: 'Create a new user',
@@ -24,14 +35,7 @@ export const usersRoutes = new Elysia().group('/users', (app) =>
               description: 'User created successfully',
               content: {
                 'application/json': {
-                  schema: t.Object({
-                    id: t.String(),
-                    name: t.String(),
-                    contact: t.String(),
-                    document: t.String(),
-                    createdAt: t.String(),
-                    updatedAt: t.String(),
-                  }),
+                  schema: userResponseSchema,
                 },
               },
             },
@@ -48,11 +52,7 @@ export const usersRoutes = new Elysia().group('/users', (app) =>
       },
       {
         params: t.Object({ id: t.String() }),
-        body: t.Object({
-          name: t.String(),
-          contact: t.String(),
-          document: t.String(),
-        }),
+        body: userRequestSchema,
         detail: {
           tags: ['Users'],
           summary: 'Update a user',
@@ -61,14 +61,7 @@ export const usersRoutes = new Elysia().group('/users', (app) =>
               description: 'User updated successfully',
               content: {
                 'application/json': {
-                  schema: t.Object({
-                    id: t.String(),
-                    name: t.String(),
-                    contact: t.String(),
-                    document: t.String(),
-                    createdAt: t.String(),
-                    updatedAt: t.String(),
-                  }),
+                  schema: userResponseSchema,
                 },
               },
             },
@@ -92,16 +85,7 @@ export const usersRoutes = new Elysia().group('/users', (app) =>
               description: 'Users retrieved successfully',
               content: {
                 'application/json': {
-                  schema: t.Array(
-                    t.Object({
-                      id: t.String(),
-                      name: t.String(),
-                      contact: t.String(),
-                      document: t.String(),
-                      createdAt: t.String(),
-                      updatedAt: t.String(),
-                    })
-                  ),
+                  schema: t.Array(userResponseSchema),
                 },
               },
             },
